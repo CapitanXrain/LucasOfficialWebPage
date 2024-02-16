@@ -21,14 +21,14 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY', default='S#perS3crEt_007')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True #env('DEBUG')
+DEBUG = env('DEBUG')
 
 # Assets Management
 ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets') 
 
 # load production server from .env
-ALLOWED_HOSTS        = ['localhost', 'localhost:85', '127.0.0.1',               env('SERVER', default='127.0.0.1') ]
-CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1', 'https://' + env('SERVER', default='127.0.0.1') ]
+ALLOWED_HOSTS        = ['localhost', 'localhost:85', '127.0.0.1','172.18.10.180',               env('SERVER', default='127.0.0.1') ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:85', 'http://127.0.0.1','http://172.18.10.180:5085', 'https://' + env('SERVER', default='127.0.0.1') ]
 
 # Application definition
 
@@ -80,34 +80,27 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
-    DATABASES = { 
-      'default': {
-        'ENGINE'  : 'django.db.backends.mysql', 
-        'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
-        'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
-        'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
-        'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
-        'PORT'    : os.getenv('DB_PORT'     , 3306),
-        }, 
-    }
-else:
-    DATABASES = {
+#if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
+#    DATABASES = { 
+#      'default': {
+#        'ENGINE'  : 'django.db.backends.mysql', 
+#        'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
+#        'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
+#        'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
+#        'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
+#        'PORT'    : os.getenv('DB_PORT'     , 3306),
+#        }, 
+#    }
+DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': 'db.sqlite3',
-        },
-        'SQl_server_db':{
-            'ENGINE': 'sql_server.pyodbc',
-            'NAME': 'BD_Sincronizacion',
-            'HOST': '172.18.10.109', 
-            'OPTIONS': {
-                'driver': 'ODBC Driver 17 for SQL Server',
-                'MARS_Connection': 'True',
-                'authentication': 'Windows Authentication'
-            }
-
+        'ENGINE':'django.db.backends.postgresql_psycopg2',
+        'NAME':'lrios',
+        'USER':'lrios',
+        'PASSWORD':'lucasPulento123',
+        'HOST':'db',
+        'DATABASE_PORT':'5433',
         }
+
     }
 
 # Password validation

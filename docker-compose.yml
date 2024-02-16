@@ -1,5 +1,17 @@
 version: '3.8'
 services:
+  db:
+    image: "postgres:latest"
+    container_name: postgresql
+    restart: always
+    environment:
+      POSTGRES_DB: lrios
+      POSTGRES_USER: lrios
+      POSTGRES_PASSWORD: lucasPulento123
+    networks:
+      - db_network
+    ports:
+      - "5433:5433"
   appseed-app:
     container_name: appseed_app
     restart: always
@@ -8,6 +20,8 @@ services:
     networks:
       - db_network
       - web_network
+    depends_on:
+      - db
   nginx:
     container_name: nginx
     restart: always
@@ -25,4 +39,3 @@ networks:
     driver: bridge
   web_network:
     driver: bridge
- 
